@@ -1,0 +1,743 @@
+@import "../lib/layui/css/layui.css";
+@import "../lib/fonts/iconfont.css";
+@import "../css/jquery.contextMenu.css";
+
+/*边距*/
+.ptb20{
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.ptb10{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#navBar .layui-nav-child {
+    overflow: hidden;
+    padding: 0 !important;
+}
+
+#navBar .layui-nav-itemed .layui-nav-child,
+#navBar .layui-nav-child dd {
+    overflow: hidden;
+}
+
+[class^="v-icon"], [class*=" v-icon"] {
+    line-height: inherit;
+    font-size: 16px;
+}
+
+/*不显示滚动条样式*/
+.not-scroll::-webkit-scrollbar {
+    height: 0;
+    width: 0;
+    background: transparent;
+    display: none;
+}
+
+.scrollBody::-webkit-scrollbar {
+    display: none;
+}
+
+/*去掉after*/
+.no-line.layui-this:after {
+    background: transparent !important;
+    color: transparent !important;
+}
+
+/*通用*/
+.v-none-select {
+    -moz-user-select: none; /*火狐*/
+    -webkit-user-select: none; /*webkit浏览器*/
+    -ms-user-select: none; /*IE10*/
+    user-select: none;
+}
+
+.vadmin-text-center {
+    text-align: center;
+}
+
+.vadmin-bg-20222A {
+    background: #20222A;
+}
+
+.post-left220 {
+    left: 220px !important;
+}
+
+.flex-vc {
+    display: flex !important;
+    display: -webkit-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.pl0 {
+    padding-left: 0 !important;
+}
+
+.pr0 {
+    padding-right: 0 !important;
+}
+
+.pl10 {
+    padding-left: 10px !important;
+}
+
+.pr10 {
+    padding-right: 10px !important;
+}
+
+#noticeQQ {
+    cursor: pointer;
+    color: #FF5722;
+    font-weight: bolder;
+}
+
+/*框架布局样式*/
+.vadmin-header .layui-nav-bar,
+.vadmin-header .layui-nav-tree .layui-nav-itemed:after {
+    background: #20222A !important;
+    bottom: auto;
+    top: 0 !important;
+    height: 2px;
+}
+
+.vadmin-header .layui-nav .layui-this:after {
+    background: transparent !important;
+    color: transparent !important;
+}
+
+.layui-side-menu, .layadmin-pagetabs .layui-tab-title li:after, .layadmin-pagetabs .layui-tab-title li.layui-this:after, .layui-layer-admin .layui-layer-title, .layadmin-side-shrink .layui-side-menu .layui-nav > .layui-nav-item > .layui-nav-child {
+    /*background: #20222A !important;*/
+    background: #001529 !important;
+}
+
+.layui-tab-brief > .layui-tab-title .layui-this {
+    color: #000;
+}
+
+/*在tab导航中去掉首页标签的删除按钮*/
+.v-tab-title li strong[is-close="false"] ~ i.layui-tab-close,
+.v-tab-title li[tab="index"] i.layui-tab-close {
+    display: none !important;
+}
+
+/*头部*/
+.vadmin .vadmin-header {
+    background: #FFFFFF;
+    height: 49px;
+    line-height: 49px;
+    border-bottom: 1px solid #f6f6f6;
+}
+
+.vadmin-header .layui-nav-item .layui-icon {
+    font-size: 16px;
+}
+
+.vadmin-header .layui-nav .layui-nav-item a,
+.vadmin-header .layui-nav-child dd.layui-this a {
+    color: #000;
+}
+
+#userInfo .layui-this,
+#userInfo .layui-this a {
+    background: transparent;
+}
+
+#userInfo .layui-this a:hover {
+    background: #f2f2f2;
+}
+
+/*天气样式*/
+.weather {
+    color: #000;
+}
+
+#tp-weather-widget .tpwthwidt .title_2I35arv,
+#tp-weather-widget .tpwthwidt .text_1vUR5ag {
+    margin: 0 !important;
+    color: #000 !important;
+}
+
+/*菜单显隐按钮*/
+.v-show-menu {
+    font-size: 18px;
+}
+
+.v-show-menu .v-menu-hide:before {
+    content: "\e66b";
+}
+
+#fullScreen i.vicon-screen-restore:before {
+    content: "\e758";
+}
+
+.vadmin-header .layui-input-search {
+    display: inline-block;
+    vertical-align: middle;
+    height: 32px;
+    border: none;
+    cursor: text;
+}
+
+.vadmin-header .layui-nav .layui-nav-item {
+    height: 49px;
+    line-height: 49px;
+}
+
+.vadmin-header .layui-layout-left .layui-nav-item {
+    margin: 0 20px;
+}
+
+.vadmin-header .layui-layout-left .layui-nav-item.layui-this:after {
+    display: none !important;
+}
+
+.vadmin-header .layui-layout-left .layui-nav-item a {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.vadmin .menu-switch {
+    width: 30px;
+    height: 30px;
+    position: relative;
+    left: 220px;
+    top: 16px;
+    color: #FFF;
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+    z-index: 9999;
+}
+
+.vadmin-header .layui-nav .layui-nav-more {
+    border-color: #000 transparent transparent;
+}
+
+.vadmin-header .layui-nav .layui-nav-mored,
+.vadmin-header .layui-nav-itemed > a .layui-nav-more {
+    border-color: transparent transparent #000;
+}
+
+.vadmin-header .layui-nav-child {
+    top: 50px;
+}
+
+.icon-head-i {
+    font-size: 18px;
+    padding-right: 5px;
+    /*color:#333!important;*/
+}
+
+/*左边菜单导航*/
+.v-left {
+    top: 0 !important;
+    width: 220px !important;
+    z-index: 9999;
+}
+
+.v-left .vadmin-logo {
+    line-height: 49px;
+    text-align: center;
+    color: #FFF;
+    font-size: 16px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1002;
+    width: 220px;
+    height: 49px;
+    padding: 0 15px;
+    box-sizing: border-box;
+    overflow: hidden;
+    font-weight: 300;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background: #20222A;
+}
+
+.layui-side-menu .layui-nav {
+    width: 220px;
+    background: 0 0;
+}
+
+.layui-side-menu .layui-side-scroll {
+    width: 240px !important;
+}
+
+.layui-side-menu .layui-side-scroll:before {
+    content: " ";
+    height: 50px;
+    line-height: 50px;
+    display: flex;
+    width: 1px;
+}
+
+.vadmin-side {
+    width: 240px !important;
+    position: relative;
+    width: 220px;
+    height: 100%;
+    overflow-x: hidden;
+}
+
+.vadmin-side .user-photo {
+    /*margin-top: 50px;*/
+    width: 220px !important;
+}
+
+.v-left.layui-side-menu .layui-nav .layui-nav-item a,
+.v-left.layui-side-menu .layui-nav .layui-nav-item .layui-nav-child a {
+    height: 40px;
+    line-height: 40px;
+    /*padding-left: 25px;*/
+    padding-left: 45px;
+    padding-right: 30px;
+    color: hsla(0,0%,100%,.7);
+    /*color: #f2f2f2;*/
+}
+
+.v-left.layui-side-menu .layui-nav .layui-nav-item.layui-this a,
+.v-left.layui-side-menu .layui-nav .layui-nav-item.layui-this .layui-nav-child a {
+    color: #FFF !important;
+}
+
+.v-left.layui-side-menu .layui-nav-item a:hover {
+    background-color: #4E5465;
+    color:#ffffff;
+}
+
+.v-left.layui-side-menu .layui-nav .layui-nav-item .layui-nav-child a:hover {
+    color:#ffffff;
+}
+
+.v-left.layui-side-menu .layui-this a:hover {
+    background-color: inherit;
+}
+
+.v-left.layui-side-menu .layui-nav .layui-nav-item .layui-icon,
+.v-left.layui-side-menu .layui-nav .layui-nav-item a i {
+    position: absolute;
+    padding-right: 10px;
+    left: 20px;
+}
+
+.v-left.layui-side-menu .layui-nav .layui-nav-item .layui-nav-child a i {
+    position: static !important;
+    padding-right: 10px;
+}
+
+/*第三级菜单及其一下的缩进样式*/
+#navBar .layui-nav-child .layui-nav-child > dd > a {
+    padding-left: 65px;
+}
+
+/*第四级菜单及其一下的缩进样式*/
+#navBar .layui-nav-child .layui-nav-child .layui-nav-child > dd > a {
+    padding-left: 90px;
+}
+
+/*第五级菜单及其一下的缩进样式*/
+#navBar .layui-nav-child .layui-nav-child .layui-nav-child .layui-nav-child > dd > a {
+    padding-left: 115px;
+}
+
+.v-left .user-photo {
+    width: 200px;
+    height: 120px;
+    padding: 15px 0 5px;
+}
+
+.v-left .user-photo a.img {
+    display: block;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 10px;
+}
+
+.v-left .user-photo a.img img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border: 4px solid #44576b;
+    box-sizing: border-box;
+}
+
+.v-left .user-photo p {
+    display: block;
+    width: 100%;
+    height: 25px;
+    color: hsla(0,0%,100%,.7);
+    text-align: center;
+    font-size: 12px;
+    white-space: nowrap;
+    line-height: 25px;
+    overflow: hidden;
+}
+
+#navBar ul {
+    margin: 0 !important;
+}
+
+/*顶部tab标签样式*/
+.v-tab {
+    background: #F5F7F9;
+}
+.vadmin-pagetabs {
+    padding: 0 80px 0 40px;
+    background-color: transparent;
+    width: 100%;
+    position: absolute;
+    height: 40px;
+    z-index: 1;
+}
+.vadmin-tabs-control {
+    height: 32px;
+    line-height: 32px;
+    position: absolute;
+    top: 4px;
+    width: 32px;
+    right: 4px;
+    text-align: center;
+    cursor: pointer;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+    background: #F5F7F9;
+    /*border-left: 1px solid #E6E6E6;*/
+    /*border-bottom: 1px solid #E6E6E6;*/
+    /*background: #FFF;*/
+    z-index: 10;
+}
+.vadmin-tabs-control:hover {
+    /*background: #F2F2F2;*/
+    color: #009688;
+}
+.v-tab .move-left {
+    left: 0;
+    border-left: none;
+}
+.v-tab .move-right {
+    right: 40px;
+}
+.layui-icon-down {
+    right: 0;
+}
+.vadmin-tabs-select.layui-nav {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    background: 0 0;
+}
+
+/**tab的菜单**/
+.vadmin-nav a,
+.vadmin-tab a{
+    cursor: pointer;
+}
+.v-right-nav-menu{
+    top:0;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    line-height: normal;
+    background: #F5F7F9;
+    display: flex;
+    align-items: center;
+}
+.vadmin-tab{
+    height: 32px;
+    line-height: 32px;
+    width: 32px;
+}
+.vadmin-tab .vadmin-tab-item .vadmin-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: #FFFFFF;
+    border-radius: 3px;
+}
+
+.v-right-nav-menu:hover .vadmin-tab-item .vadmin-tab-child {
+    display: block !important;
+}
+
+.vadmin-tab .vadmin-tab-item .vadmin-tab-child {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    display: none;
+    white-space: nowrap;
+    line-height: 36px;
+    padding: 5px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12);
+    border: 1px solid #d2d2d2;
+    background-color: #fff;
+    z-index: 100;
+    border-radius: 2px;
+}
+
+.vadmin-tab .vadmin-tab-item a {
+    display: block;
+    padding: 0 20px;
+    color: #000;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+    font-size: 14px;
+}
+.vadmin-tab .vadmin-tab-item a:hover {
+    background: #F5F7F9;
+}
+.vadmin-tab .vadmin-tab-item .vadmin-tab-child:visited {
+    display: none !important;
+}
+
+.v-tab .layui-tab-title {
+    margin: 0 80px 0 40px;
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
+    width: max-content !important;
+    z-index: 9;
+    position: relative;
+    left: 0;
+    height: 40px;
+    line-height: 40px;
+    border: 0;
+}
+.v-tab .layui-tab-title li{
+    height: 32px;
+    line-height: 32px;
+    background: #fff;
+    border-radius: 3px;
+    margin-right: 15px;
+}
+.v-tab .layui-tab-brief > .layui-tab-more li.layui-this,
+.v-tab .layui-tab-brief > .layui-tab-title .layui-this,
+.v-tab .layui-tab-title li.layui-this {
+    background-color: #ffffff;
+    color: #009688;
+    /*background: #F6F6F6;*/
+}
+
+.v-tab .layui-tab-brief > .layui-tab-more li.layui-this:after,
+.v-tab .layui-tab-brief > .layui-tab-title .layui-this:after,
+.v-tab .layui-tab-title .layui-this:after {
+    display: none;
+}
+
+.v-tab .layui-tab-title .layui-this:after {
+    display: none;
+}
+
+.v-tab-title cite {
+    padding-left: 5px;
+    font-style: normal;
+}
+
+/*中国天气样式*/
+.weather-v {
+    height: 49px;
+    line-height: 49px;
+}
+
+.weather-v .iframe-style {
+    /*height: 415px;*/
+    /*height: 375px;*/
+    height: 50px;
+    padding-top: 9px;
+    box-sizing: border-box;
+}
+
+.weather-v .iframe-style:hover {
+    height: 400px;
+}
+
+/*主体内容样式*/
+.vadmin .content-body {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    bottom: 0;
+    left: 220px;
+    z-index: 1;
+    overflow: hidden
+}
+
+.vadmin-tabs-select.layui-nav .layui-nav-item {
+    line-height: 40px;
+}
+
+.v-nav-item {
+    height: 49px;
+    line-height: 49px;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 14px;
+    width: auto;
+}
+
+/*主体内容选项卡内容样式*/
+.content-body .layui-tab {
+    margin: 0;
+    /*position: relative;*/
+}
+
+.vadmin .content-body .layui-tab-content {
+    position: absolute;
+    top: 40px;
+    bottom: 0;
+    width: 100%;
+    padding: 0;
+    overflow: hidden;
+    left: 0;
+    right: 0;
+}
+
+/*使iframe高度100%,它的父类高度也需要100%*/
+.vadmin .content-body .layui-tab-content .layui-tab-item {
+    height: 100%;
+    padding:10px;
+}
+
+/*使iframe高度100*/
+.vadmin .content-body .layui-tab-content .layui-tab-item iframe {
+    height: 100%
+}
+
+/**隐藏左侧菜单**/
+.layui-layout-admin.v-left-hide .v-left,
+.layui-layout-admin.v-left-hide .v-left .vadmin-logo {
+    left: -220px;
+}
+
+.layui-layout-admin.v-left-hide .layui-header .layui-layout-left {
+    left: -20px;
+}
+
+.layui-layout-admin.v-left-hide .content-body,
+.layui-layout-admin.v-left-hide .layui-footer {
+    left: 0;
+}
+
+#vae_admin_index_note {
+    padding:0;
+}
+#vae_admin_index_note textarea {
+    border:0;
+}
+
+.layui-colorpicker {
+    border:0;
+}
+
+
+/*
+* 以下都是移动端的处理响应
+*/
+
+/*这里只是给元素加一些额外的效果也可以,去掉媒体查询效果一样*/
+@media screen {
+    .layui-layout-admin .v-left,
+    .v-left .vadmin-logo,
+    .layui-header .layui-layout-left,
+    .layui-layout-admin .content-body,
+    .layui-layout-admin .layui-footer {
+        transition: left .5s;
+    }
+}
+
+/*移动端遮罩层*/
+.v-make {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    z-index: 9998;
+    background: rgba(0, 0, 0, .5);
+    display: none;
+}
+
+@media screen and (max-width: 970px) {
+    /*当屏幕宽度小于970时执行*/
+    .v-hide-md {
+        display: none !important;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    [pc-show] {
+        display: none !important;
+    }
+
+    .layui-layout-admin .v-left {
+        position: fixed;
+    }
+
+    .v-input-search {
+        width: 7rem;
+    }
+
+    .layui-layout-admin.v-left-hide .v-left,
+    .layui-layout-admin.v-left-hide .v-left .vadmin-logo {
+        left: 0;
+    }
+
+    .vadmin-header .layui-layout-left .layui-nav-item {
+        margin: 0 5px;
+    }
+
+    .layui-layout-admin.v-left-hide .v-make {
+        display: block;
+    }
+
+    .layui-layout-admin .v-left,
+    .v-left .vadmin-logo {
+        transition: left .5s;
+        left: -220px;
+    }
+
+    .layui-header .layui-layout-left {
+        transition: left .5s;
+        left: -20px;
+    }
+
+    .layui-layout-admin .content-body,
+    .layui-layout-admin .layui-footer {
+        transition: left .5s;
+        left: 0;
+    }
+
+    .v-left .vadmin-side .user-photo {
+        height: auto;
+        margin: 0 auto;
+    }
+
+    .v-left .user-photo a.img {
+        width: 50px;
+        height: 50px;
+    }
+
+    /*
+    * 移动端菜单的宽度
+    */
+    .layui-side-menu .layui-side-scroll {
+        width: 200px !important;
+    }
+
+    .v-left,
+    .v-left .vadmin-logo,
+    .v-left .vadmin-side .user-photo,
+    .v-left.layui-side-menu .layui-nav {
+        width: 180px !important;
+        margin: 0;
+    }
+}
