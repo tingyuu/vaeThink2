@@ -40,8 +40,7 @@ composer update topthink/framework
 
 ## 文档
 
-[ThinkPHP6.X完全开发手册](https://www.kancloud.cn/manual/thinkphp6_0/content)
-[Layui2.X完全开发手册](https://www.layui.com/doc/)
+[开发手册](http://vaethink.com)
 
 ## 版权
 
