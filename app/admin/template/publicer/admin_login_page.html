@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>登录</title>
+        <link rel="stylesheet" href="__AVIEW__/lib/layui/css/layui.css"  media="all">
+        <style type="text/css">
+            /*body{
+                background:url('/themes/admin_themes/lib/vaeyo/img/bg.jpg');
+            }*/
+            .vaeyo-login-body{
+                min-width:300px;
+                max-width:400px;
+                min-height:150px;
+                margin:0 auto;
+                margin-top:200px
+            }
+            .vaeyo-login-body h2{
+                margin: 20px auto;
+                text-align: center;
+                font-size: 32px;
+            }
+        </style>
+    </head>
+    <body>
+    	<div class="vaeyo-login-body">
+            <!-- <h2>登录</h2> -->
+	        <form class="layui-form" id="vaeyo-login">
+			  <div class="layui-form-item">
+			      <input type="text" name="username" lay-verify="required" placeholder="用户名" autocomplete="off" class="layui-input">
+			  </div>
+			  <div class="layui-form-item">
+			      <input type="password" name="password" lay-verify="required" placeholder="密码" autocomplete="off" class="layui-input">
+			  </div>
+			  <div class="layui-form-item">
+                  <div id="slider"></div>
+                  {:token_meta()}
+			  </div>
+			  <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="vaeyo-login-submit" id="vaeyo-login-submit">立即登录</button>
+			</form>
+		</div>
+		<script src="__AVIEW__/lib/layui/layui.js"></script>
+		<script type="text/javascript">
+			layui.config({
+                base: '__AVIEW__/module/'
+            }).use(['form','vae',"sliderVerify"], function () {
+		        var form = layui.form,$ = layui.$,vae = layui.vae,sliderVerify = layui.sliderVerify;
+
+                var slider = sliderVerify.render({
+                    elem: '#slider',
+                    // bg : 'layui-bg-red',//自定义背景样式名
+                    // text : '滑动',
+                    // onOk: function(){
+                    //     layer.msg("滑块验证通过");
+                    // }
+                })
+
+		        form.on('submit(vaeyo-login-submit)', function(data) {
+
+                    if(slider.isOk())
+                    {
+                        vae.ajax({
+                            url:"{:url('/admin/publicer/adminLoginSubmit')}",
+                            type:'post',
+                            data:$('#vaeyo-login').serialize(),
+                            success:function(res) {
+                                layer.tips(res.msg,'#vaeyo-login-submit');
+                                if(res.code === 200) {
+                                    setTimeout(function() {
+                                        location.href = "{:url('admin/index/index')}";
+                                    }, 1500);
+                                } else {
+                                    slider.reset();
+                                }
+                            }
+                        })
+                    }
+                    else
+                    {
+                        layer.msg("请先通过滑块验证");
+                    }
+                    
+                    return false;
+                });
+		    });
+		</script>
+    </body>
+</html>

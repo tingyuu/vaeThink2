@@ -1,0 +1,83 @@
+{include file="common/head"}
+
+<form class="layui-form" style="padding: 20px 70px 0 0;">
+
+  <div class="layui-form-item">
+    <label class="layui-form-label">组名</label>
+    <div class="layui-input-block">
+      <input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">标识</label>
+    <div class="layui-input-block">
+      <input type="text" name="key" lay-verify="required" autocomplete="off" placeholder="" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item layui-form-text">
+    <label class="layui-form-label">备注</label>
+    <div class="layui-input-block">
+      <textarea name="desc" placeholder="" class="layui-textarea"></textarea>
+    </div>
+  </div>
+  {:token_meta()}
+  <div class="layui-form-item">
+    <div class="layui-input-block">
+      <button class="layui-btn layui-btn-primary" lay-submit="" lay-filter="vaeform">立即提交</button>
+      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    </div>
+  </div>
+</form>
+          
+{include file="common/foot"}
+<script>
+layui.config({
+    base: '__AVIEW__/module/'
+}).use(['upload','form','vae'], function(){
+  var form = layui.form
+  ,layer = layui.layer
+  ,$ = layui.$
+  ,upload = layui.upload
+  ,vae = layui.vae;
+
+  //头像上传
+  let load;
+  var uploadInst = upload.render({
+    elem: '#test1'
+    ,url: "{:url('admin/index/upload')}"
+    ,choose: function(res) {
+      load = layer.load(1);
+    }
+    ,done: function(res){
+      layer.close(load);
+      //如果上传失败
+      if(res.code == 202){
+        return layer.msg('上传失败');
+      }
+      //上传成功
+      $('#demo1 input').attr('value',res.data);
+      $('#demo1 img').attr('src',res.data);
+    }
+  });
+  
+  //监听提交
+  form.on('submit(vaeform)', function(data){
+    vae.ajax({
+      url:"{:url('admin/cate/addGroup')}",
+      type:'post',
+      data:data.field,
+      success:function(e){
+        layer.msg(e.msg);
+        if(e.code==200){
+          vae.close();
+        }
+      }
+    })
+    return false;
+  });
+  
+});
+</script>
+
+</body>
+</html>

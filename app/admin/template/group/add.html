@@ -1,0 +1,101 @@
+{include file="common/head"}
+
+	<form class="layui-form" style="padding: 20px 70px 0 0;">
+		<div class="layui-form-item">
+			<label class="layui-form-label">名称</label>
+			<div class="layui-input-block">
+				<input class="layui-input" type="text" name="title" lay-verify="required" placeholder="请输入名称" autocomplete="off" />
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">菜单</label>
+			<div class="layui-input-block">
+				<div id="test12" class="demo-tree-more"></div>
+			</div>
+		</div>
+		
+		
+		
+		<div class="layui-form-item layui-form-text">
+		    <label class="layui-form-label">备注</label>
+		    <div class="layui-input-block">
+		      <textarea name="desc" placeholder="请输入备注" class="layui-textarea"></textarea>
+		    </div>
+		</div>
+		{:token_meta()}
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+				<button class="layui-btn layui-btn-primary" type="submit" lay-submit lay-filter="vaeform">提交</button>
+				<button class="layui-btn layui-btn-primary" type="reset">重置</button>
+			</div>
+		</div>
+	</form>
+
+</body>
+{include file="common/foot"}
+<script type="text/javascript">
+layui.config({
+	base: '__AVIEW__/module/',
+}).use(['form', 'vae', 'tree'], function(){
+	var $ = layui.$;
+	var form = layui.form;
+	var vae = layui.vae;
+	var tree = layui.tree;
+
+  let data;
+  vae.ajax({
+    url:"{:url('admin/index/getRuleList')}",
+    async:false,
+    success:function(res){
+      if(res.code == 200){
+        data = res.data;
+      }else{
+        layer.msg(res.msg);
+        return false;
+      }
+    }
+  })
+  //基本演示
+  tree.render({
+    elem: '#test12'
+    ,data: data
+    ,id: 'demoId1'
+    ,onlyIconControl: false
+    ,showCheckbox: true
+  });
+
+	//监听提交
+	form.on('submit(vaeform)', function(obj){
+		//获得选中的节点
+		var ids = [];
+
+		var finds = function(arr){
+	        arr.forEach((item) => { //利用foreach循环遍历
+	             ids.push(item.id);
+	             // console.log('333'+item.children);
+	             if(item.children&&item.children.length > 0) //判断chlidren是否有数据
+	             {
+	                 finds(item.children);  //递归调用                      
+	             }                   
+	        })
+	    }
+		finds(tree.getChecked('demoId1'));
+		obj.field.rules = ids;
+		vae.ajax({
+			url: "{:url('admin/group/add')}",
+			data: obj.field,
+			type: 'post',
+			success: function(res){
+				layer.msg(res.msg);
+				if(res.code==200){
+		          vae.close();
+		        }
+			}
+		});
+		return false;
+	});
+
+});
+</script>
+</html>

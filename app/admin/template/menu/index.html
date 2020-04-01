@@ -1,0 +1,101 @@
+{include file="common/head"}
+<div class="layui-btn-container">
+  <button type="button" class="layui-btn layui-btn-sm layui-btn-primary" lay-demo="add">添加菜单</button>
+</div>
+ 
+<div id="test12" class="demo-tree-more"></div>
+        
+{include file="common/foot"}
+<script>
+layui.config({
+    base: '__AVIEW__/module/'
+}).use(['tree', 'util', 'vae'], function(){
+  var tree = layui.tree
+  ,layer = layui.layer
+  ,util = layui.util
+  ,$ = layui.$
+  ,vae = layui.vae;
+
+  let data;
+  vae.ajax({
+    url:"{:url('admin/menu/index')}",
+    async:false,
+    success:function(res){
+      if(res.code == 200){
+        data = res.data;
+      }else{
+        layer.msg(res.msg);
+        return false;
+      }
+    }
+  })
+
+  //基本演示
+  tree.render({
+    elem: '#test12'
+    ,data: data
+    ,edit: ['del']
+    ,id: 'demoId1'
+    ,onlyIconControl: true
+    ,click: function(obj){
+      //修改
+      var data = obj.data;  //获取当前点击的节点数据
+      vae.open({
+        href: "{:url('admin/menu/edit')}?id="+data.id,
+        title: '修改菜单'+data.id,
+        end: function(res) {
+          tree.reload('demoId1', {
+            
+          });
+        }
+      });
+    }
+    ,operate: function(obj){
+      var type = obj.type; //得到操作类型：add、edit、del
+      var data = obj.data; //得到当前节点的数据
+      var elem = obj.elem; //得到当前节点元素
+      
+      //Ajax 操作
+      var id = data.id; //得到节点索引
+      if(type === 'del'){ //删除节点
+        vae.ajax({
+          url:"{:url('admin/menu/delete')}",
+          data:{id:id},
+          success:function(res){
+            layer.msg(res.msg);
+            if(res.code !== 200) {
+              return false;
+            }
+          }
+        })
+        return false;
+      }
+    }
+  });
+  
+  //按钮事件
+  util.event('lay-demo', {
+    add: function(){
+      vae.open({
+        href: "{:url('admin/menu/add')}",
+        title: '添加菜单',
+        end: function(res) {
+          tree.reload('demoId1', {
+            
+          });
+        }
+      });
+    }
+    ,reload: function(){
+      //重载实例
+      tree.reload('demoId1', {
+        
+      });
+      
+    }
+  });
+});
+</script>
+
+</body>
+</html>

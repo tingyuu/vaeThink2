@@ -1,0 +1,110 @@
+{include file="common/head"}
+
+<table class="layui-hide" id="test" lay-filter="test"></table>
+
+<script type="text/html" id="thumb">
+  <img src='{{d.thumb}}' height="20" style="border-radius: 50%;" />
+</script>
+<script type="text/html" id="status">
+  <i class="layui-icon {{#  if(d.status == 1){ }}layui-icon-ok{{#  } else { }}layui-icon-close{{#  } }}"></i>
+</script>
+<script type="text/html" id="toolbarDemo">
+  <div class="layui-btn-container">
+    <button class="layui-btn layui-btn-sm layui-btn-primary" lay-event="add">添加内容组</button>
+    <span class="layui-badge-rim">提示：双击数据行可对内容组的数据进行增删改查</span>
+  </div>
+</script>
+<script type="text/html" id="barDemo">
+  <a class="layui-icon layui-icon-edit" lay-event="edit" href="javascript:;"></a>
+  <a class="layui-icon layui-icon-delete" lay-event="del" href="javascript:;"></a>
+</script>
+
+{include file="common/foot"}
+
+<script>
+layui.config({
+    base: '__AVIEW__/module/'
+}).use(['table','vae','form'], function(){
+  var table = layui.table
+  ,vae = layui.vae
+  ,$ = layui.$
+  ,form = layui.form;
+
+  var tableIns = table.render({
+    elem: '#test'
+    ,toolbar: '#toolbarDemo'
+    ,url: "{:url('admin/content/index')}" //数据接口
+    ,page: true //开启分页
+    ,cols: [[ //表头
+      {field: 'name', title: '组名', align:'center'}
+      ,{field: 'key', title: '标识', align:'center'}
+      ,{field: 'desc', title:'备注', align:'center'}
+      ,{field: 'right', toolbar: '#barDemo', width:150, align:'center'}
+    ]]
+    ,size: "sm"
+  });
+
+  //监听事件
+  table.on('toolbar(test)', function(obj){
+    var checkStatus = table.checkStatus(obj.config.id);
+    switch(obj.event){
+      case 'add':
+        vae.open({
+          href:"{:url('admin/content/addGroup')}",
+          title:"添加内容组",
+          end:function(){
+            tableIns.reload();
+          }
+        })
+      break;
+    };
+  });
+
+  //监听行工具事件
+  table.on('tool(test)', function(obj){
+    var data = obj.data;
+    if(obj.event === 'del'){
+      vae.confirm('真的删除么', function(index){
+        $.ajax({
+          url:"{:url('/admin/content/deleteGroup')}",
+          data:{id:data.id},
+          success:function(res){
+            layer.msg(res.msg);
+            if(res.code==200){
+              obj.del();
+            }
+          }
+        })
+        layer.close(index);
+      });
+    }else if(obj.event === 'edit'){
+      vae.open({
+        href:"{:url('admin/content/editGroup')}?id="+data.id,
+        title:'修改内容组'+data.id,
+        end:function(){
+          tableIns.reload();
+        }
+      })
+    }
+  });
+
+  //监听行双击事件
+  table.on('rowDouble(test)', function(obj){
+    vae.open({
+      href:"{:url('admin/content/contentIndex')}?content_group_id="+obj.data.id,
+      title:obj.data.name+'-内容集'
+    })
+  });
+
+  //监听搜索提交
+  form.on('submit(vaeform)', function(data){
+    if(data.field.keywords) {
+      tableIns.reload({where:{keywords:data.field.keywords,page:1}});
+    }
+    return false;
+  });
+});
+</script>
+
+</body>
+</html>

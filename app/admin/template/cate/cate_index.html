@@ -1,0 +1,102 @@
+{include file="common/head"}
+
+<table class="layui-hide" id="test" lay-filter="test"></table>
+
+<script type="text/html" id="thumb">
+  <img src='{{d.icon}}' height="20" />
+</script>
+<script type="text/html" id="status">
+  <i class="layui-icon {{#  if(d.status == 1){ }}layui-icon-ok{{#  } else { }}layui-icon-close{{#  } }}"></i>
+</script>
+<script type="text/html" id="toolbarDemo">
+  <div class="layui-btn-container">
+    <button class="layui-btn layui-btn-sm layui-btn-primary" lay-event="add">添加分类</button>
+  </div>
+</script>
+<script type="text/html" id="barDemo">
+  <a class="layui-icon layui-icon-edit" lay-event="edit" href="javascript:;"></a>
+  <a class="layui-icon layui-icon-delete" lay-event="del" href="javascript:;"></a>
+</script>
+
+{include file="common/foot"}
+
+<script>
+layui.config({
+    base: '__AVIEW__/module/'
+}).use(['table','vae','form'], function(){
+  var table = layui.table
+  ,vae = layui.vae
+  ,$ = layui.$
+  ,form = layui.form;
+
+  var tableIns = table.render({
+    elem: '#test'
+    ,toolbar: '#toolbarDemo'
+    ,url: "{:url('admin/cate/cateIndex')}?cate_group_id={$cate_group_id}" //数据接口
+    ,page: false //开启分页
+    ,cols: [[ //表头
+      {field: 'sort', title: '排序', align:'center'}
+      ,{field: 'title', title: '名称', align:'left'}
+      ,{field: 'icon', title: '图标', align:'center', toolbar: '#thumb'}
+      ,{field: 'status', title:'状态', align:'center', toolbar: '#status'}
+      ,{field: 'right', toolbar: '#barDemo', width:150, align:'center'}
+    ]]
+    ,size: "sm"
+  });
+
+  //监听事件
+  table.on('toolbar(test)', function(obj){
+    var checkStatus = table.checkStatus(obj.config.id);
+    switch(obj.event){
+      case 'add':
+        vae.open({
+          href:"{:url('admin/cate/addCate',['cate_group_id'=>$cate_group_id])}",
+          title:"添加分类",
+          end:function(){
+            tableIns.reload();
+          }
+        })
+      break;
+    };
+  });
+
+  //监听行工具事件
+  table.on('tool(test)', function(obj){
+    var data = obj.data;
+    if(obj.event === 'del'){
+      vae.confirm('真的删除么', function(index){
+        $.ajax({
+          url:"{:url('/admin/cate/deleteCate')}",
+          data:{id:data.id},
+          success:function(res){
+            layer.msg(res.msg);
+            if(res.code==200){
+              obj.del();
+            }
+          }
+        })
+        layer.close(index);
+      });
+    }else if(obj.event === 'edit'){
+      vae.open({
+        href:"{:url('admin/cate/editCate')}?id="+data.id,
+        title:'修改分类-'+data.title,
+        end:function(){
+          tableIns.reload();
+        }
+      })
+    }
+  });
+
+  //监听搜索提交
+  form.on('submit(vaeform)', function(data){
+    if(data.field.keywords) {
+      tableIns.reload({where:{keywords:data.field.keywords,page:1}});
+    }
+    return false;
+  });
+});
+</script>
+
+</body>
+</html>

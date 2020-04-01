@@ -1,0 +1,127 @@
+{include file="common/head"}
+
+<form class="layui-form" style="padding: 20px 70px 0 0;">
+  <div class="layui-form-item">
+    <label class="layui-form-label">标题</label>
+    <div class="layui-input-block">
+      <input type="text" name="title" autocomplete="off" placeholder="" class="layui-input" lay-verify="required" value="{$data.title}">
+    </div>
+  </div>
+  <div class="layui-form-item layui-form-text">
+    <label class="layui-form-label">概要</label>
+    <div class="layui-input-block">
+      <textarea name="desc" placeholder="" class="layui-textarea">{$data.desc}</textarea>
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">分类</label>
+    <div class="layui-input-block">
+      <select name="cate_id" lay-verify="required" lay-search="">
+        {volist name=":vae_set_recursion($cate)" id="v"}
+        <option value="{$v.id}" {eq name="$data.cate_id" value="$v.id"}selected=""{/eq}>{$v.title}</option>
+        {/volist}
+      </select>
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">图片</label>
+    <div class="layui-input-inline">
+      <div class="layui-upload">
+        <button type="button" class="layui-btn layui-btn-primary" id="test1">上传图片</button>
+        <div class="layui-upload-list" id="demo1">
+          <img src="{$data.img}" width="100" />
+          <input type="hidden" name="img" value="{$data.img}">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">排序</label>
+    <div class="layui-input-block">
+      <input type="text" name="sort" lay-verify="required" autocomplete="off" placeholder="" class="layui-input" value="{$data.sort}">
+    </div>
+  </div>
+  <div class="layui-form-item layui-form-text">
+    <label class="layui-form-label">详情</label>
+    <div class="layui-input-block">
+      <textarea name="content" placeholder="" class="layui-textarea" id="container" style="border:0;padding:0">{$data.content}</textarea>
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">状态</label>
+    <div class="layui-input-block">
+      <input type="radio" name="status" value="1" title="正常" {eq name="$data.status" value="1"}checked{/eq}>
+      <input type="radio" name="status" value="0" title="禁用" {eq name="$data.status" value="0"}checked{/eq}>
+    </div>
+  </div>
+  {:token_meta()}
+  <div class="layui-form-item">
+    <div class="layui-input-block">
+      <input type="hidden" name="id" value="{$data.id}" />
+      <button class="layui-btn layui-btn-primary" lay-submit="" lay-filter="vaeform">立即提交</button>
+      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    </div>
+  </div>
+</form>
+          
+{include file="common/foot"}
+<script>
+layui.config({
+    base: '__AVIEW__/module/'
+}).use(['upload','form','vae'], function(){
+  var form = layui.form
+  ,layer = layui.layer
+  ,$ = layui.$
+  ,upload = layui.upload
+  ,vae = layui.vae;
+
+  //头像上传
+  let load;
+  var uploadInst = upload.render({
+    elem: '#test1'
+    ,url: "{:url('admin/index/upload')}"
+    ,choose: function(res) {
+      load = layer.load(1);
+    }
+    ,done: function(res){
+      layer.close(load);
+      //如果上传失败
+      if(res.code == 202){
+        return layer.msg('上传失败');
+      }
+      //上传成功
+      $('#demo1 input').attr('value',res.data);
+      $('#demo1 img').attr('src',res.data);
+    }
+  });
+  
+  //监听提交
+  form.on('submit(vaeform)', function(data){
+    vae.ajax({
+      url:"{:url('admin/content/editContent')}",
+      type:'post',
+      data:data.field,
+      success:function(e){
+        layer.msg(e.msg);
+        if(e.code==200){
+          vae.close();
+        }
+      }
+    })
+    return false;
+  });
+  
+});
+</script>
+<script id="container" name="content" type="text/plain"></script>
+<script type="text/javascript" src="__AVIEW__/lib/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__AVIEW__/lib/ueditor/ueditor.all.js"></script>
+<script type="text/javascript">
+    var ue = UE.getEditor('container',{
+      //初始化高度
+      initialFrameHeight:200,
+    });
+</script>
+
+</body>
+</html>

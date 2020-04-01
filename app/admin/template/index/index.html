@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="utf-8">
+   <title>vaeThink-超好用的PHP(ThinkPHP6,Layui)内容管理框架</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+   <link rel="stylesheet" href="__AVIEW__/css/admin.css">
+   <link rel="stylesheet" href="__AVIEW__/css/theme.css">
+</head>
+<body class="layui-layout-body">
+<!-- 更换主体 Eg:orange_theme|blue_theme -->
+<div class="layui-layout layui-layout-admin vadmin blue_theme">
+   <!--头部导航-->
+   <div class="layui-header vadmin-header">
+      <ul class="layui-nav layui-layout-left">
+         <li class="layui-nav-item">
+            <a class="v-menu v-show-menu" href="javascript:" title="菜单切换">
+               <i class="layui-icon layui-icon-shrink-right"></i>
+            </a>
+         </li>
+         <li class="layui-nav-item">
+            <a class="" href="javascript:" title="清空缓存" id="vae-del-cache">
+               <i class="layui-icon layui-icon-fonts-clear"></i>
+            </a>
+         </li>
+         <li class="layui-nav-item">
+            <a class="" href="/" title="前台首页" target="_blank">
+               <i class="layui-icon layui-icon-website" style="font-size: 18px;"></i>
+            </a>
+         </li>
+         <!--天气信息-->
+         <!-- 
+         <li class="v-nav-item v-hide-md">
+             <div class="weather-v">
+                 <iframe frameborder="0" scrolling="no" class="iframe-style" src="pages/weather.html" frameborder="0"></iframe>
+             </div>
+         </li>
+           -->
+      </ul>
+      <ul class="layui-nav layui-layout-right">
+         <li class="layui-nav-item v-input-search">
+            <input type="text" placeholder="搜索..." class="layui-input layui-input-search"/>
+         </li>
+         <li class="layui-nav-item">
+            <a class="v-refresh" href="javascript:" title="刷新">
+               <i class="layui-icon layui-icon-refresh-3"></i>
+            </a>
+         </li>
+
+         <!-- 全屏 -->
+         <li class="layui-nav-item layui-hide-xs">
+            <a id="fullScreen" class=" pr10 pl10" href="javascript:">
+               <i class="layui-icon layui-icon-screen-full"></i>
+            </a>
+         </li>
+
+         <!-- 便签 -->
+         <li class="no-line layui-nav-item layui-hide-xs">
+            <a id="note" class="flex-vc pr10 pl10" href="javascript:">
+               <i class="layui-icon layui-icon-note"></i>
+            </a>
+         </li>
+
+         <li class="no-line layui-nav-item layui-hide-xs">
+            <a id="lock" class="flex-vc pr10 pl10" href="javascript:">
+               <i class="v-icon v-icon-lock icon-head-i" title="锁屏"></i><cite></cite>
+            </a>
+         </li>
+
+         <!-- 退出 -->
+         <li class="layui-nav-item layui-hide-xs">
+            <a id="logout" class=" pr10 pl10" href="javascript:">
+               <i class="layui-icon layui-icon-logout" style="color:#FF5722;font-weight: bold;"></i>
+            </a>
+         </li>
+
+         <!-- 皮肤 -->
+         <li class="layui-nav-item layui-hide-xs">
+            <a id="vae-color" class=" pr10 pl10" href="javascript:">
+               <i class="layui-icon layui-icon-theme"></i>
+            </a>
+         </li>
+      </ul>
+   </div>
+   <!--遮罩层-->
+   <div class="v-make"></div>
+   <!--左侧导航区域-->
+   <div class="layui-side layui-side-menu vadmin-bg-20222A v-left">
+      <div class="vadmin-side"><!-- 
+         <div class="vadmin-logo">v-admin v2.0</div> -->
+         <div class="user-photo">
+            <a class="img" title="点击修改资料" id="thumb" href="javascript:;">
+               <img src="{$uInfo.thumb}" class="userAvatar">
+            </a>
+            <p>欢迎，<span class="userName">{$uInfo.nickname}</span></p>
+         </div>
+         <!--左侧导航菜单-->
+         <ul id="navBar" class="layui-nav vadmin-nav vadmin-bg-20222A layui-nav-tree">
+            <!-- <li class="layui-nav-item layui-this">
+               <a href="javascript:" lay-id="1" data-url="pages/console.html">
+                  <i is-close=false class="v-icon">&#xe654;</i>
+                  <i class="layui-icon layui-icon-chart"></i>
+                  控制台
+               </a>
+            </li> -->
+         </ul>
+      </div>
+   </div>
+
+   <!-- 内容主体区域 -->
+   <div class="content-body">
+      <div class="layui-tab v-tab" lay-filter="v-tab" lay-allowClose="true" lay-unauto>
+         <div data-id="left" id="vLeftMove"
+              class="v-icon v-icon-back vadmin-tabs-control move-left vNavMove"></div>
+         <div data-id="right" id="vRightMove"
+              class="v-icon v-icon-right vadmin-tabs-control move-right vNavMove"></div>
+         <div class="layui-icon vadmin-tabs-control v-right-nav-menu" style="right: 0;">
+            <ul class="vadmin-tab">
+               <li class="no-line vadmin-tab-item">
+                  <div class="vadmin-link layui-icon-down" href="javascript:;"></div>
+                  <dl id="tabAction" class="vadmin-tab-child layui-anim-upbit layui-anim">
+                     <dd><a data-num="1" href="javascript:">关闭当前标签页</a></dd>
+                     <dd><a data-num="2" href="javascript:">关闭其他标签页</a></dd>
+                     <dd><a data-num="3" href="javascript:">关闭所有标签页</a></dd>
+                  </dl>
+               </li>
+            </ul>
+         </div>
+
+         <ul id="tabTitle" class="layui-tab-title v-tab-title not-scroll">
+            <li class="layui-this" lay-id="1" tab="index">
+               <!-- <i class="v-icon">&#xe654;</i> -->
+               <i class="layui-icon layui-icon-home"></i>
+               <cite is-close=false>首页</cite>
+            </li>
+         </ul>
+
+         <div id="tabContent" class="layui-tab-content v-tab-content">
+            <div class="layui-tab-item layui-show">
+               <iframe src="{:url('admin/index/console')}" frameborder="0" scrolling="yes" width="100%"
+                       height="100%"></iframe>
+            </div>
+         </div>
+      </div>
+   </div>
+
+</div>
+<div class="yy"></div>
+<!--js逻辑-->
+<script src="__AVIEW__/lib/layui/layui.js"></script>
+<script src="__AVIEW__/js/admin.js"></script>
+</body>
+</html>

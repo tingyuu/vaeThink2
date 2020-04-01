@@ -1,0 +1,82 @@
+{include file="common/head"}
+
+<form class="layui-form" style="padding: 20px 70px 0 0;">
+  <div class="layui-form-item">
+    <label class="layui-form-label">父级</label>
+    <div class="layui-input-block">
+      <select name="pid" lay-verify="required" lay-search="">
+        <option value="0">顶级菜单</option>
+        {volist name=":vae_set_recursion($menu)" id="v"}
+        <option value="{$v.id}" {eq name="$data.pid" value="$v.id"}selected=""{/eq}>{$v.title}</option>
+        {/volist}
+      </select>
+    </div>
+  </div>
+
+  <div class="layui-form-item">
+    <label class="layui-form-label">名称</label>
+    <div class="layui-input-block">
+      <input type="text" name="title" lay-verify="required" autocomplete="off" placeholder="请输入名称" class="layui-input" value="{$data.title}">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">链接</label>
+    <div class="layui-input-block">
+      <input type="text" name="src" placeholder="请输入链接" autocomplete="off" class="layui-input" value="{$data.src}">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">类型</label>
+    <div class="layui-input-block">
+      <input type="checkbox" name="is_menu" lay-skin="switch" value="1" lay-text="权限+菜单|仅权限" {eq name="$data.is_menu" value="1"}checked{/eq}>
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">图标</label>
+    <div class="layui-input-block">
+      <input type="text" name="icon" placeholder="仅在开启左侧菜单状态下有效,目前仅支持layui内置图标" autocomplete="off" class="layui-input" value="{$data.icon}">
+    </div>
+  </div>
+  {:token_meta()}
+  <div class="layui-form-item">
+    <div class="layui-input-block">
+      <input type="hidden" name="id" value="{$data.id}" />
+      <button class="layui-btn layui-btn-primary" lay-submit="" lay-filter="vaeform">立即提交</button>
+      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    </div>
+  </div>
+</form>
+          
+{include file="common/foot"}
+<script>
+layui.config({
+    base: '__AVIEW__/module/'
+}).use(['form','vae'], function(){
+  var form = layui.form
+  ,layer = layui.layer
+  ,$ = layui.$
+  ,vae = layui.vae;
+  
+  //监听提交
+  form.on('submit(vaeform)', function(data){
+    vae.ajax({
+      url:"{:url('admin/menu/edit')}",
+      headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+      type:'post',
+      data:data.field,
+      success:function(res){
+        console.log(res);
+        layer.msg(res.msg);
+        if(res.code == 200){
+          vae.close();
+        }
+      }
+    })
+    return false;
+  });
+  
+});
+</script>
+
+</body>
+</html>

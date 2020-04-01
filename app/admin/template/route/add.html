@@ -1,0 +1,63 @@
+{include file="common/head"}
+
+<form class="layui-form" style="padding: 20px 70px 0 0;">
+
+  <div class="layui-form-item">
+    <label class="layui-form-label">应用(模块)</label>
+    <div class="layui-input-block">
+      <input type="text" name="module" lay-verify="required" autocomplete="off" placeholder="请输入应用名" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">原始链接</label>
+    <div class="layui-input-block">
+      <input type="text" name="full_url" lay-verify="required" autocomplete="off" placeholder="请输入完整的原始链接" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">美化后</label>
+    <div class="layui-input-block">
+      <input type="text" name="url" lay-verify="required" placeholder="请输入美化后想要显示的链接" autocomplete="off" class="layui-input">
+      <div class="layui-form-mid layui-word-aux">url格式一般为name/:参数1/:参数2</div>
+    </div>
+  </div>
+  {:token_meta()}
+  <div class="layui-form-item">
+    <div class="layui-input-block">
+      <button class="layui-btn" lay-submit="" lay-filter="vaeform">立即提交</button>
+      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    </div>
+  </div>
+</form>
+          
+{include file="common/foot"}
+<script>
+layui.config({
+    base: '__AVIEW__/module/'
+}).use(['form','vae'], function(){
+  var form = layui.form
+  ,layer = layui.layer
+  ,$ = layui.$
+  ,vae = layui.vae;
+  
+  //监听提交
+  form.on('submit(vaeform)', function(data){
+    vae.ajax({
+      url:"{:url('admin/route/add')}",
+      type:'post',
+      data:data.field,
+      success:function(e){
+        layer.msg(e.msg);
+        if(e.code==200){
+          vae.close();
+        }
+      }
+    })
+    return false;
+  });
+  
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>vaeThink</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="__AVIEW__/lib/layui/css/layui.css"  media="all">
+  <style type="text/css">
+    html,body {
+      width:100%;
+      overflow: hidden;
+    }
+    *{
+      padding: 0;
+      margin: 0;
+    }
+    .vaeyo-main-header{
+      height: 300px;
+    }
+    .console-md{
+      /*background-color: #009688;*/
+      height:100px;
+      /*border:1px solid #f2f2f2;*/
+    }
+    .borders{
+      border:1px solid #f0f0f0;
+    }
+    .layui-table, .layui-table-view{
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div>
+    <div class="layui-row layui-col-space15">
+      <div class="layui-col-md3 layui-anim layui-anim-scale">
+        <div class="console-md borders">
+            
+        </div>
+      </div>
+      <div class="layui-col-md3 layui-anim layui-anim-scale">
+        <div class="console-md borders">
+            
+        </div>
+      </div>
+      <div class="layui-col-md3 layui-anim layui-anim-scale">
+        <div class="console-md borders">
+            
+        </div>
+      </div>
+      <div class="layui-col-md3 layui-anim layui-anim-scale">
+        <div class="console-md borders">
+            
+        </div>
+      </div>
+
+      <div class="layui-col-md8 layui-anim layui-anim-scale">
+        <div class="console-md borders" style="height: 298px;">
+            <div class="vaeyo-main-header" id="vaeyo-main-header"></div>
+        </div>
+      </div>
+      <div class="layui-col-md4 layui-anim layui-anim-scale">
+        <div class="console-md borders" style="height: 300px;">
+            <!-- <div class="layui-carousel" id="test2">
+              <div carousel-item="">
+                <div class="layui-bg-green"></div>
+                <div class="layui-bg-blue"></div>
+              </div>
+            </div> -->
+        </div>
+      </div>
+
+      <div class="layui-col-md4 layui-anim layui-anim-scale">
+        <div class="console-md" style="height: 300px;">
+            <div class="layui-progress">
+              <div class="layui-progress-bar layui-bg-red" lay-percent="20%"></div>
+            </div>
+             
+            <br>
+             
+            <div class="layui-progress">
+              <div class="layui-progress-bar layui-bg-orange" lay-percent="30%"></div>
+            </div>
+             
+            <br>
+             
+            <div class="layui-progress">
+              <div class="layui-progress-bar layui-bg-green" lay-percent="40%"></div>
+            </div>
+             
+            <br>
+             
+            <div class="layui-progress">
+              <div class="layui-progress-bar layui-bg-blue" lay-percent="50%"></div>
+            </div>
+             
+            <br>
+             
+            <div class="layui-progress">
+              <div class="layui-progress-bar layui-bg-cyan" lay-percent="60%"></div>
+            </div>
+
+            <br>
+
+            <div class="layui-progress layui-progress-big">
+              <div class="layui-progress-bar" lay-percent="20%"></div>
+            </div>
+               
+            <br>
+            <div class="layui-progress layui-progress-big">
+              <div class="layui-progress-bar layui-bg-green" lay-percent="35%"></div>
+            </div>
+            <br>
+            <div class="layui-progress layui-progress-big">
+              <div class="layui-progress-bar layui-bg-cyan" lay-percent="75%"></div>
+            </div>
+
+            <br>
+            <br>
+
+            <div class="layui-progress" lay-showpercent="true">
+              <div class="layui-progress-bar" lay-percent="20%"></div>
+            </div>
+             
+            <br>
+             
+            <div class="layui-progress" lay-showpercent="true">
+              <div class="layui-progress-bar" lay-percent="5 / 10"></div>
+            </div>
+             
+            <br>
+             
+            <div class="layui-progress layui-progress-big" lay-showpercent="true">
+              <div class="layui-progress-bar" lay-percent="70%"></div>
+            </div>
+        </div>
+      </div>
+      <div class="layui-col-md8 layui-anim layui-anim-scale">
+        <div class="console-md" style="height: 300px;padding-top: -15px">
+            <table class="layui-hide" id="test" lay-filter="test"></table>
+            <script type="text/html" id="thumb">
+              <img src='{{d.thumb}}' height="20" style="border-radius: 50%;" />
+            </script>
+            <script type="text/html" id="status">
+              <i class="layui-icon {{#  if(d.status == 1){ }}layui-icon-ok{{#  } else { }}layui-icon-close{{#  } }}"></i>
+            </script>
+        </div>
+      </div>
+    </div>
+  </div> 
+
+  <script src="__AVIEW__/lib/layui/layui.js" charset="utf-8"></script>
+  <script>
+    layui.config({
+        base: '__AVIEW__/module/'
+    }).define(['table','echarts','layer','element','carousel'], function(exports){
+      var $ = layui.jquery,layer = layui.layer,element = layui.element,table = layui.table,carousel = layui.carousel;
+
+      var myChart = echarts.init(document.getElementById('vaeyo-main-header'));
+        var pv = [];
+        var uv = [];
+        for (var i = 23; i >= 0; i--) {
+          pv[i] = Math.floor(Math.random()*i*50); 
+          uv[i] = Math.floor(Math.random()*i*100);
+        }
+        var data = {
+          "time":['00:00','01:00','02:00','03:00','04:00','05:00','06:00','07:00','08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00','22:00','23:00'],
+          "pv":pv,
+          "uv":uv
+        }
+        option = {
+            tooltip : {
+              trigger: 'axis'
+            },
+            legend: {
+              data:['','']
+            },
+            tooltip : {
+              trigger: 'axis'
+            },
+            legend: {
+              data:['UV','PV']
+            },
+            grid: {
+                top:'10%',
+                left: '1%',
+                right: '2%',
+                bottom: '5%',
+                containLabel: true
+            },
+            xAxis : [{
+              type : 'category',
+              boundaryGap : false,
+              data: data.time
+            }],
+            yAxis : [{
+              type : 'value',
+              splitLine: {show: false}
+            }],
+            series : [{
+              name:'UV',
+              type:'line',
+              smooth: true,
+              itemStyle: {normal: {color:'#009688'}},
+              lineStyle:{normal:{color:'#009688',width:1}},
+              areaStyle: {normal:{color:'#009688'}},
+              data: data.uv
+            },{
+              name:'PV',
+              type:'line',
+              smooth: true,
+              itemStyle: {normal: {color:'#01AAED'}},
+              lineStyle:{normal:{color:'#01AAED',width:1}},
+              areaStyle: {normal:{color:'#01AAED'}},
+              data: data.pv
+            }]
+        };
+        myChart.setOption(option);
+        $(window).on('resize', function () {
+          myChart.resize();
+        });
+
+        var tableIns = table.render({
+          elem: '#test'
+          ,url: "{:url('admin/admin/index')}" //数据接口
+          ,page: true //开启分页
+          ,cols: [[ //表头
+            {field: 'id', title: 'ID', sort: true, fixed: 'left', align:'center', width:80}
+            ,{field: 'groupName', title: '管理组', align:'center'}
+            ,{field: 'thumb', title:'头像', toolbar: '#thumb', align:'center', width:80}
+            ,{field: 'username', title: '用户名', align:'center'}
+            ,{field: 'nickname', title: '昵称', align:'center'}
+            ,{field: 'last_login_time', title: '最后登录时间', sort: true, align:'center', sort: true}
+            ,{field: 'last_login_ip', title: '最后登录IP', align:'center'}
+            ,{field: 'status', title:'状态', toolbar: '#status', align:'center', width:100}
+          ]]
+          ,size: "sm"
+        });
+
+        carousel.render({
+          elem: '#test2'
+          ,interval: 1800
+          ,anim: 'fade'
+          ,height: '300px'
+        });
+          
+      exports('main', {});
+  });  
+  </script> 
+
+</body>
+</html>

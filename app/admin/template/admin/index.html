@@ -1,0 +1,110 @@
+{include file="common/head"}
+
+<form class="layui-form" style="display: inline;">
+  <input type="text" name="keywords" required  lay-verify="required" placeholder="" class="layui-input" autocomplete="off" style="max-width: 200px;display: inline;margin: 10px 10px 0 0;height: 30px;" />
+  <button class="layui-btn layui-btn-sm layui-btn-primary" lay-submit="" lay-filter="vaeform">立即搜索</button>
+</form>
+<table class="layui-hide" id="test" lay-filter="test"></table>
+
+<script type="text/html" id="thumb">
+  <img src='{{d.thumb}}' height="20" style="border-radius: 50%;" />
+</script>
+<script type="text/html" id="status">
+  <i class="layui-icon {{#  if(d.status == 1){ }}layui-icon-ok{{#  } else { }}layui-icon-close{{#  } }}"></i>
+</script>
+<script type="text/html" id="toolbarDemo">
+  <div class="layui-btn-container">
+    <button class="layui-btn layui-btn-sm layui-btn-primary" lay-event="add">添加管理员</button>
+  </div>
+</script>
+<script type="text/html" id="barDemo">
+  <a class="layui-icon layui-icon-edit" lay-event="edit" href="javascript:;"></a>
+  <a class="layui-icon layui-icon-delete" lay-event="del" href="javascript:;"></a>
+</script>
+
+{include file="common/foot"}
+
+<script>
+layui.config({
+    base: '__AVIEW__/module/'
+}).use(['table','vae','form'], function(){
+  var table = layui.table
+  ,vae = layui.vae
+  ,$ = layui.$
+  ,form = layui.form;
+
+  var tableIns = table.render({
+    elem: '#test'
+    ,toolbar: '#toolbarDemo'
+    ,url: "{:url('admin/admin/index')}" //数据接口
+    ,page: true //开启分页
+    ,cols: [[ //表头
+      {field: 'id', title: 'ID', sort: true, fixed: 'left', align:'center', width:80}
+      ,{field: 'groupName', title: '管理组', align:'center'}
+      ,{field: 'thumb', title:'头像', toolbar: '#thumb', align:'center', width:80}
+      ,{field: 'username', title: '用户名', align:'center'}
+      ,{field: 'nickname', title: '昵称', align:'center'}
+      ,{field: 'last_login_time', title: '最后登录时间', sort: true, align:'center', sort: true}
+      ,{field: 'last_login_ip', title: '最后登录IP', align:'center'}
+      ,{field: 'status', title:'状态', toolbar: '#status', align:'center', width:100}
+      ,{field: 'right', toolbar: '#barDemo', width:150, align:'center'}
+    ]]
+    ,size: "sm"
+  });
+
+  //监听事件
+  table.on('toolbar(test)', function(obj){
+    var checkStatus = table.checkStatus(obj.config.id);
+    switch(obj.event){
+      case 'add':
+        vae.open({
+          href:"{:url('admin/admin/add')}",
+          title:"添加管理员",
+          end:function(){
+            tableIns.reload();
+          }
+        })
+      break;
+    };
+  });
+
+  //监听行工具事件
+  table.on('tool(test)', function(obj){
+    var data = obj.data;
+    if(obj.event === 'del'){
+      vae.confirm('真的删除么', function(index){
+        $.ajax({
+          url:"{:url('/admin/admin/delete')}",
+          data:{id:data.id},
+          success:function(res){
+            layer.msg(res.msg);
+            if(res.code==200){
+              obj.del();
+            }
+          }
+        })
+        layer.close(index);
+      });
+    }else if(obj.event === 'edit'){
+      vae.open({
+        href:"{:url('admin/admin/edit')}?id="+data.id,
+        title:'修改管理员'+data.id,
+        end:function(){
+          tableIns.reload();
+        }
+      })
+    }
+  });
+
+  //监听搜索提交
+  form.on('submit(vaeform)', function(data){
+    if(data.field.keywords) {
+      tableIns.reload({where:{keywords:data.field.keywords,page:1}});
+    }
+    return false;
+  });
+});
+</script>
+
+</body>
+</html>

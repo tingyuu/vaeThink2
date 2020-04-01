@@ -1,0 +1,196 @@
+{include file="common/head"}
+
+<div class="layui-tab" style="max-width: 1200px;margin: 0 auto;">
+  <ul class="layui-tab-title">
+    <li class="layui-this">网站配置</li>
+    <li>邮件配置</li>
+    <li>短信配置</li>
+  </ul>
+  <div class="layui-tab-content">
+    <div class="layui-tab-item layui-show">
+      <form class="layui-form" style="padding: 20px 70px 0 0;">
+        <div class="layui-form-item">
+          <label class="layui-form-label">标题</label>
+          <div class="layui-input-block">
+            <input type="text" name="title" lay-verify="required" autocomplete="off" placeholder="请输入网站标题" class="layui-input" value="{$webConf.title}">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">关键词</label>
+          <div class="layui-input-block">
+            <input type="text" name="keywords" autocomplete="off" placeholder="多个关键词用“,”隔开" class="layui-input" value="{$webConf.keywords}">
+          </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+          <label class="layui-form-label">描述</label>
+          <div class="layui-input-block">
+            <textarea name="desc" placeholder="请输入网站描述" class="layui-textarea">{$webConf.desc}</textarea>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">LOGO</label>
+          <div class="layui-input-inline">
+            <div class="layui-upload">
+              <button type="button" class="layui-btn layui-btn-primary" id="test1">上传LOGO</button>
+              <div class="layui-upload-list" id="demo1">
+                <img src="{$webConf.logo}" />
+                <input type="hidden" name="logo" value="{$webConf.logo}">
+              </div>
+            </div>
+          </div>
+        </div> 
+        <div class="layui-form-item layui-form-text">
+          <label class="layui-form-label">ICP备案号</label>
+          <div class="layui-input-block">
+            <input type="text" name="icp" autocomplete="off" placeholder="请输入ICP备案号" class="layui-input" value="{$webConf.icp}">
+          </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+          <label class="layui-form-label">统计代码</label>
+          <div class="layui-input-block">
+            <textarea name="code" placeholder="请输入完整的统计代码" class="layui-textarea">{$webConf.code}</textarea>
+          </div>
+        </div>
+        {:token_meta()}
+        <div class="layui-form-item">
+          <div class="layui-input-block">
+            <input type="hidden" name="type" value="web" />
+            <button class="layui-btn layui-btn-primary" lay-submit="" lay-filter="vaeform">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="layui-tab-item">
+      <form class="layui-form" style="padding: 20px 70px 0 0;">
+        <div class="layui-form-item">
+          <label class="layui-form-label">SMTP</label>
+          <div class="layui-input-block">
+            <input type="text" name="smtp" lay-verify="required" autocomplete="off" placeholder="请输入SMTP服务器地址" class="layui-input" value="{$emailConf.smtp}">
+            <div class="layui-form-mid layui-word-aux">如qq邮箱的SMTP服务器地址是smtp.qq.com</div>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">账户</label>
+          <div class="layui-input-block">
+            <input type="text" name="username" lay-verify="required" autocomplete="off" placeholder="请输入邮箱用户名" class="layui-input" value="{$emailConf.username}">
+          </div>
+        </div> 
+        <div class="layui-form-item">
+          <label class="layui-form-label">密码</label>
+          <div class="layui-input-block">
+            <input type="password" name="password" lay-verify="required" autocomplete="off" placeholder="请输入邮箱密码" class="layui-input" value="{$emailConf.password}">
+            <div class="layui-form-mid layui-word-aux">不一定是登录密码,如qq的第三方授权登录码,要自己去开启,在邮箱的设置->账户->POP3/IMAP/SMTP/Exchange/CardDAV/CalDAV服务</div>
+          </div>
+        </div> 
+        <div class="layui-form-item">
+          <label class="layui-form-label">端口</label>
+          <div class="layui-input-block">
+            <input type="text" name="port" lay-verify="required" autocomplete="off" placeholder="请输入端口" class="layui-input" value="{$emailConf.port}">
+            <div class="layui-form-mid layui-word-aux">如qq邮箱的ssl协议方式端口号是465/587</div>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">邮箱</label>
+          <div class="layui-input-block">
+            <input type="text" name="email" lay-verify="required" autocomplete="off" placeholder="请输入要显示的发送者邮箱" class="layui-input" value="{$emailConf.email}">
+            <div class="layui-form-mid layui-word-aux">可以不同于上面的账户，用于显示发送方的邮箱</div>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">发送者</label>
+          <div class="layui-input-block">
+            <input type="text" name="from" lay-verify="required" autocomplete="off" placeholder="请输入要显示的发送者" class="layui-input" value="{$emailConf.from}">
+            <div class="layui-form-mid layui-word-aux">如：vaeThink</div>
+          </div>
+        </div>
+        {:token_meta()}
+        <div class="layui-form-item">
+          <div class="layui-input-block">
+            <input type="hidden" name="type" value="email" />
+            <button class="layui-btn layui-btn-primary" lay-submit="" lay-filter="vaeform">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="layui-tab-item">
+      <form class="layui-form" style="padding: 20px 70px 0 0;">
+        <div class="layui-form-item">
+          <label class="layui-form-label">APPKEY</label>
+          <div class="layui-input-block">
+            <input type="text" name="appkey" lay-verify="required" autocomplete="off" placeholder="请输入阿里大鱼的appkey" class="layui-input" value="{$dayuConf.appkey}">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">SECRETKEY</label>
+          <div class="layui-input-block">
+            <input type="text" name="secretkey" lay-verify="required" autocomplete="off" placeholder="请输入阿里大鱼的secretey" class="layui-input" value="{$dayuConf.secretkey}">
+          </div>
+        </div> 
+        <div class="layui-form-item">
+          <label class="layui-form-label">签名</label>
+          <div class="layui-input-block">
+            <input type="text" name="FreeSignName" lay-verify="required" autocomplete="off" placeholder="请输入有效的阿里大鱼的签名" class="layui-input" value="{$dayuConf.FreeSignName}">
+          </div>
+        </div> 
+        {:token_meta()}
+        <div class="layui-form-item">
+          <div class="layui-input-block">
+            <input type="hidden" name="type" value="dayu" />
+            <button class="layui-btn layui-btn-primary" lay-submit="" lay-filter="vaeform">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+          
+{include file="common/foot"}
+<script>
+layui.config({
+    base: '__AVIEW__/module/'
+}).use(['upload','form','vae','element'], function(){
+  var form = layui.form
+  ,layer = layui.layer
+  ,$ = layui.$
+  ,upload = layui.upload
+  ,vae = layui.vae
+  ,element = layui.element;
+
+  //logo上传
+  var uploadInst = upload.render({
+    elem: '#test1'
+    ,url: "{:url('admin/index/upload')}"
+    ,done: function(res){
+      //如果上传失败
+      if(res.code == 0){
+        return layer.msg('上传失败');
+      }
+      //上传成功
+      $('#demo1 input').attr('value',res.data);
+      $('#demo1 img').attr('src',res.data);
+    }
+  });
+  
+  //监听提交
+  form.on('submit(vaeform)', function(data){
+    vae.ajax({
+      url:"{:url('admin/conf/confSubmit')}",
+      type:'post',
+      data:data.field,
+      success:function(e){
+        layer.msg(e.msg);
+      }
+    })
+    return false;
+  });
+  
+});
+</script>
+
+</body>
+</html>
